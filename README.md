@@ -1,6 +1,8 @@
 # 🔮 El Oraculo
 
-![El Oraculo Banner](assets/banner.html)
+<p align="center">
+  <img src="assets/banner.svg" alt="El Oraculo — Autonomous AI Trading Enhancement Engine" width="100%">
+</p>
 
 **Autonomous AI enhancement engine for crypto grid trading bots.**
 

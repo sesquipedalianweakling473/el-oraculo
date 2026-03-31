@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#0f0f18"/>
+    </linearGradient>
+    <linearGradient id="title" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f4f4f5"/>
+      <stop offset="50%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#3b82f6"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="30%" cy="50%" r="40%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.12"/>
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="70%" cy="50%" r="35%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.08"/>
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.03"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="overlay"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect width="1280" height="640" fill="url(#glow1)"/>
+  <rect width="1280" height="640" fill="url(#glow2)"/>
+
+  <!-- Border -->
+  <rect x="1" y="1" width="1278" height="638" fill="none" stroke="#a855f7" stroke-opacity="0.15" rx="0"/>
+
+  <!-- Crystal ball emoji -->
+  <text x="640" y="200" text-anchor="middle" font-size="80" fill="#a855f7" filter="url(#noise)">🔮</text>
+
+  <!-- Title -->
+  <text x="640" y="290" text-anchor="middle" font-family="Inter, -apple-system, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-2" fill="url(#title)">El Oraculo</text>
+
+  <!-- Subtitle -->
+  <text x="640" y="340" text-anchor="middle" font-family="Inter, -apple-system, Helvetica, Arial, sans-serif" font-size="22" fill="#a1a1aa" letter-spacing="1">Autonomous AI Trading Enhancement Engine</text>
+
+  <!-- Feature pills -->
+  <!-- HMM Markov -->
+  <rect x="290" y="380" width="130" height="36" rx="18" fill="#a855f7" fill-opacity="0.08" stroke="#a855f7" stroke-opacity="0.3"/>
+  <text x="355" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#c4b5fd">HMM Markov</text>
+
+  <!-- LLM Predictions -->
+  <rect x="440" y="380" width="150" height="36" rx="18" fill="#3b82f6" fill-opacity="0.08" stroke="#3b82f6" stroke-opacity="0.3"/>
+  <text x="515" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#93c5fd">LLM Predictions</text>
+
+  <!-- Autoresearch -->
+  <rect x="610" y="380" width="140" height="36" rx="18" fill="#22c55e" fill-opacity="0.08" stroke="#22c55e" stroke-opacity="0.3"/>
+  <text x="680" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#86efac">Autoresearch</text>
+
+  <!-- Grid Optimization -->
+  <rect x="770" y="380" width="170" height="36" rx="18" fill="#f59e0b" fill-opacity="0.08" stroke="#f59e0b" stroke-opacity="0.3"/>
+  <text x="855" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#fcd34d">Grid Optimization</text>
+
+  <!-- URL -->
+  <text x="640" y="480" text-anchor="middle" font-family="JetBrains Mono, Fira Code, monospace" font-size="15" fill="#52525b">github.com/Niiks7777/el-oraculo</text>
+
+  <!-- Stats line -->
+  <text x="640" y="550" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" fill="#71717a">+9% win rate  ·  -29% abandoned positions  ·  Nemotron 120B (free)  ·  Karpathy loop</text>
+</svg>
