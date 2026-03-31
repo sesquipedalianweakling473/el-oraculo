@@ -6,7 +6,7 @@
 
 **Autonomous AI enhancement engine for crypto grid trading bots.**
 
-El Oraculo sits alongside your grid trading bot and makes it smarter. The free tier gives you the signal pipeline, watchdog, conflict resolver, confidence tracker, and basic backtester. **[El Oraculo Pro](https://niiks7777.gumroad.com/l/el-oraculo-pro)** adds HMM Markov regime detection, Nemotron LLM predictions, Karpathy autoresearch, and self-evolving goals.
+El Oraculo sits alongside your grid trading bot and makes it smarter. The free tier gives you the signal pipeline, watchdog, conflict resolver, confidence tracker, and basic backtester. **[El Oraculo Pro](https://buy.stripe.com/cNi4gB8ZWfVE5U7cpY5J600)** adds HMM Markov regime detection, Nemotron LLM predictions, Karpathy autoresearch, and self-evolving goals.
 
 Built for [Binance Futures](https://www.binance.com/en/futures) grid/mean-reversion strategies. Works with any bot that exposes a REST API for parameter overrides.
 
@@ -281,7 +281,9 @@ The relay server proxies Binance API calls for P&L tracking (read-only, source o
 | **Revenue attribution** | - | **Track which module makes money** |
 | **Skill evolution** | - | **Auto-promote/deprecate strategies** |
 
-**[Get El Oraculo Pro](https://niiks7777.gumroad.com/l/el-oraculo-pro)** — one-time purchase, lifetime updates, 30 days email support.
+**[Get El Oraculo Pro — 549 AED](https://buy.stripe.com/cNi4gB8ZWfVE5U7cpY5J600)** — one-time purchase, lifetime updates, 30 days email support.
+
+**[Pro + Guided Installation — 1,279 AED](https://buy.stripe.com/28EfZj3FC7p82HV2Po5J601)** — everything above + 1:1 setup on your infrastructure.
 
 ---
 
